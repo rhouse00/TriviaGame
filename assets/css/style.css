@@ -1,0 +1,14 @@
+body {
+	background-image: url("../images/background.jpg");
+	background-size: 100%;
+}
+.panel-body, .panel-heading, .panel {
+	opacity: .7;
+}
+
+.game-start {
+
+}
+.slide1 {
+	
+}
