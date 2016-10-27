@@ -1,3 +1,15 @@
+var currentQuestion;
+var currentOption1;
+var currentOption2;
+var currentOption3;
+var currentOption4;
+var timeyMcTimerFace;
+var slidePause;
+var playerGuessed = false;
+var intervalNumber = 30;
+var counter = 0;
+var correct = 0;
+var wrong = 0;
 
 var triviaArray = [
 {
@@ -35,21 +47,9 @@ var triviaArray = [
 	answer3:"<span class='notBtn'>Because  BevMo says so",
 	answer4:"<span class='notBtn'>Scotish regulations say so"
 },
-]
+];
 
-var currentQuestion;
-var currentOption1;
-var currentOption2;
-var currentOption3;
-var currentOption4;
-var playerGuessed = false;
-var intervalNumber = 30;
-var counter = 0;
-var wrongPause;
-var correctPause;
-var correct = 0;
-var wrong = 0;
-
+// Adds info to variables
 function triviaSlide (){
 	for(var i = counter; i<triviaArray.length; i++){
 		if(playerGuessed == false) {
@@ -63,6 +63,7 @@ function triviaSlide (){
 	}
 }
 
+//Puts variables into the html
 function addTrivia(){
 	buttonShow();
 	$(".question").html(currentQuestion)
@@ -70,14 +71,6 @@ function addTrivia(){
 	$(".option2").html(currentOption2)
 	$(".option3").html(currentOption3)
 	$(".option4").html(currentOption4)
-	$(".option4").addClass("correctBtn");
-}
-
-function slideChange(){
-	playerGuessed = false;
-	counter++;
-	buttonHide();
-	stop();
 }
 
 function correctAnswerSlide(){
@@ -89,19 +82,12 @@ function wrongAnswerSlide(){
 	$(".question").html("<h2>Wrong!!</h2>");
 	slideChange();
 }
-function winnerSlide(){
-	$(".question").html(
-		"<h1>You Win!!!!</h1>" +
-		"<p>Answered Correctly: " + correct + "</p>" +
-		"<p>Answered Incorrectly: " + wrong + "</p>" 
-		);
-}
-function loserSlide(){
-	$(".question").html(
-		"<h1>You lack winning skills</h1>" +
-		"<p>Answered Correctly: " + correct + "</p>" +
-		"<p>Answered Incorrectly: " + wrong + "</p>" 
-		);
+
+function slideChange(){
+	playerGuessed = false;
+	counter++;
+	buttonHide();
+	intervalClearing();
 }
 
 function nextSlide() {
@@ -109,24 +95,47 @@ function nextSlide() {
 		buttonShow();
 		triviaSlide();
 		addTrivia();
-		stop();
+		intervalClearing();
 		timeyMcTimerFace = setInterval(countDown, 1000);
 	}
 	else if(counter == triviaArray.length && correct > wrong){
+		$(".slide1").hide();
 		winnerSlide();
+		// slidePause = setInterval(newGame, 3000);
 	}
 	else if(counter == triviaArray.length && correct < wrong){
+		$(".slide1").hide();
 		loserSlide();
+		// slidePause = setInterval(newGame, 3000);
 	}
 }
 
+//End of game slides
+function winnerSlide(){
+	$(".endOfGame").show();
+	$(".endOfGame").html(
+		"<h1>You Win!!!!</h1>" +
+		"<p>Answered Correctly: " + correct + "</p>" +
+		"<p>Answered Incorrectly: " + wrong + "</p>" 
+		);
+}
+function loserSlide(){
+	$(".endOfGame").show();
+	$(".endOfGame").html(
+		"<h1>You lack winning</h1>" +
+		"<p>Answered Correctly: " + correct + "</p>" +
+		"<p>Answered Incorrectly: " + wrong + "</p>" 
+		);
+}
+
+
+// Hide or Show Buttons when transitioning to answer slides
 function buttonHide(){
 	$(".option1").hide();
 	$(".option2").hide();
 	$(".option3").hide();
 	$(".option4").hide();
 }
-
 function buttonShow(){
 	$(".option1").show();
 	$(".option2").show();
@@ -134,59 +143,63 @@ function buttonShow(){
 	$(".option4").show();
 }
 
+
 // Clock Countdown functions
 function countDown(){
 	intervalNumber--;
 	$(".timer").html(intervalNumber);
 	if(intervalNumber == 0) {
-		stop();
+		intervalClearing();
 	}
 }
-
-function stop(){
-	clearInterval(wrongPause);
-	clearInterval(correctPause);
+function intervalClearing(){
+	clearInterval(slidePause);
 	clearInterval(timeyMcTimerFace);
+	slidePause = undefined;
 	timeyMcTimerFace = undefined;
 	intervalNumber = 30;
 	$(".timer").html(intervalNumber);
 }
 
-var timeyMcTimerFace;
+// End Game Resetting not working yet...in beta
 
-// function endGame(){
-// 	if(counter == triviaArray.length) {
-// 		stop();
-// 		console.log("game is done.");
-// 	}
+// function newGame() {
+// 	intervalClearing();
+// 	counter = 0;
+// 	correct = 0;
+// 	wrong = 0;
+// 	playerGuessed = false;
+// 	intervalNumber = 30;
+// 	$(".game-start").show();
+// 	$(".endOfGame").hide();
 // }
+
 
 // start of game and subsequent slide changes
 $(document).ready(function(){
 
-	$(".game-start").show();
 	$(".slide1").hide();
-	// $(".endOfGame").hide();
+	$(".endOfGame").hide();
 
 	$(".startBtn").on("click", function(){
 		$(".game-start").hide();
 		$(".slide1").show();
+		clearInterval(slidePause);
 		triviaSlide();
 		addTrivia();
-		clearInterval(timeyMcTimerFace);
 		timeyMcTimerFace = setInterval(countDown,1000);
-		
 	});
+
 	$(".btn").on("click", ".correctBtn", function(){
 		correct++;
 		correctAnswerSlide();
-		correctPause = setInterval(nextSlide, 3000);
+		slidePause = setInterval(nextSlide, 3000);
 	});
 
 	$(".btn").on("click", ".notBtn", function(){
 		wrong++;
 		wrongAnswerSlide();
-		wrongPause = setInterval(nextSlide, 3000);
+		slidePause = setInterval(nextSlide, 3000);
 	});
 
 });
