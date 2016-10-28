@@ -158,6 +158,8 @@ function countDown(){
 	$(".timer").html(intervalNumber);
 	if(intervalNumber == 0) {
 		intervalClearing();
+		wrongAnswerSlide();
+		slidePause = setInterval(nextSlide, 3000);
 	}
 }
 function intervalClearing(){
