@@ -3,6 +3,7 @@ var currentOption1;
 var currentOption2;
 var currentOption3;
 var currentOption4;
+var currentAnswer;
 var timeyMcTimerFace;
 var slidePause;
 var playerGuessed = false;
@@ -59,7 +60,23 @@ function triviaSlide (){
 			currentOption3 = triviaArray[i].answer3;
 			currentOption4 = triviaArray[i].answer4;
 			playerGuessed = true;
+			if(i == 0) {
+			 currentAnswer = triviaArray[i].answer3;
+			}
+			else if(i == 1) {
+			 currentAnswer = triviaArray[i].answer1;
+			}
+			else if(i == 2) {
+			 currentAnswer = triviaArray[i].answer4;
+			}
+			else if(i == 3) {
+			 currentAnswer = triviaArray[i].answer2;
+			}
+			else if(i == 4) {
+			 currentAnswer = triviaArray[i].answer1;
+			};
 		}
+		
 	}
 }
 
@@ -80,6 +97,7 @@ function correctAnswerSlide(){
 
 function wrongAnswerSlide(){
 	$(".question").html("<h2>Wrong!!</h2>");
+	$(".question").append("Answer is: " + currentAnswer);
 	slideChange();
 }
 
