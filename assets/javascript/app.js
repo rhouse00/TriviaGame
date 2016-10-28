@@ -158,6 +158,7 @@ function countDown(){
 	$(".timer").html(intervalNumber);
 	if(intervalNumber == 0) {
 		intervalClearing();
+		wrong++;
 		wrongAnswerSlide();
 		slidePause = setInterval(nextSlide, 3000);
 	}
