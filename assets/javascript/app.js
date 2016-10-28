@@ -18,35 +18,40 @@ var triviaArray = [
 	answer1:"<span class='notBtn'>Eastern Europe",
 	answer2:"<span class='notBtn'>Southern Europe",
 	answer3:"<span class='correctBtn'>Part of the United Kingdom",
-	answer4:"<span class='notBtn'>Part of Scandnavia"
+	answer4:"<span class='notBtn'>Part of Scandnavia",
+	answerCorrect: "Part of the United Kingdom"
 },
 {
 	question:"Which country spells whisky with an 'e'?",
 	answer1:"<span class='correctBtn'>America",
 	answer2:"<span class='notBtn'>Japan",
 	answer3:"<span class='notBtn'>Canada",
-	answer4:"<span class='notBtn'>Scotland"
+	answer4:"<span class='notBtn'>Scotland",
+	answerCorrect: "America"
 },
 {
 	question:"Which process is NOT part of making whisky?",
 	answer1:"<span class='notBtn'>Malting",
 	answer2:"<span class='notBtn'>Mashing",
 	answer3:"<span class='notBtn'>Fermentation",
-	answer4:"<span class='correctBtn'>All are processes"
+	answer4:"<span class='correctBtn'>All are processes",
+	answerCorrect: "All are processes"
 },
 {
 	question:"Which is not a regional style of Scotch whisky?",
 	answer1:"<span class='notBtn'>Highlands",
 	answer2:"<span class='correctBtn'>Midlands",
 	answer3:"<span class='notBtn'>Islay",
-	answer4:"<span class='notBtn'>Speyside"
+	answer4:"<span class='notBtn'>Speyside",
+	answerCorrect: "Midlands"
 },
 {
 	question:"Why is older whisky more expensive?",
 	answer1:"<span class='correctBtn'>Evaportation of the whisky leaves less whisky",
 	answer2:"<span class='notBtn'>It tastes so darn good!",
 	answer3:"<span class='notBtn'>Because  BevMo says so",
-	answer4:"<span class='notBtn'>Scotish regulations say so"
+	answer4:"<span class='notBtn'>Scotish regulations say so",
+	answerCorrect: "Evaportation of the whisky leaves less whisky"
 },
 ];
 
@@ -59,22 +64,8 @@ function triviaSlide (){
 			currentOption2 = triviaArray[i].answer2;
 			currentOption3 = triviaArray[i].answer3;
 			currentOption4 = triviaArray[i].answer4;
+			currentAnswer = triviaArray[i].answerCorrect;
 			playerGuessed = true;
-			if(i == 0) {
-			 currentAnswer = triviaArray[i].answer3;
-			}
-			else if(i == 1) {
-			 currentAnswer = triviaArray[i].answer1;
-			}
-			else if(i == 2) {
-			 currentAnswer = triviaArray[i].answer4;
-			}
-			else if(i == 3) {
-			 currentAnswer = triviaArray[i].answer2;
-			}
-			else if(i == 4) {
-			 currentAnswer = triviaArray[i].answer1;
-			};
 		}
 		
 	}
@@ -96,8 +87,7 @@ function correctAnswerSlide(){
 }
 
 function wrongAnswerSlide(){
-	$(".question").html("<h2>Wrong!!</h2>");
-	$(".question").append("Answer is: " + currentAnswer);
+	$(".question").html("<h2>Wrong!!</h2>" + "<p>Answer is: " + currentAnswer + "</p>");
 	slideChange();
 }
 
